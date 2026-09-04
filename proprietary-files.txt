@@ -1,0 +1,132 @@
+# All blobs below were confirmed present in a real stock_vendor.img dump
+# (SM-A260G, build A260GDDSCAUJ1, Oct 2021). This is a STARTING POINT, not
+# a finished list - re-run extract-utils' extract-files.sh against a full
+# firmware dump (not just vendor.img) to catch anything in /system,
+# /odm, or firmware paths this pass didn't cover, and to pick up correct
+# SHA1/symlink metadata automatically.
+
+# HIDL HAL implementations (all 32-bit only - no lib64 equivalents exist)
+vendor/lib/hw/android.hardware.audio.effect@2.0-impl.so
+vendor/lib/hw/android.hardware.audio@2.0-impl.so
+vendor/lib/hw/android.hardware.bluetooth@1.0-impl.so
+vendor/lib/hw/android.hardware.camera.provider@2.4-impl.so
+vendor/lib/hw/android.hardware.drm@1.0-impl.so
+vendor/lib/hw/android.hardware.gatekeeper@1.0-impl.so
+vendor/lib/hw/android.hardware.gnss@1.0-impl.so
+vendor/lib/hw/android.hardware.graphics.allocator@2.0-impl.so
+vendor/lib/hw/android.hardware.graphics.composer@2.1-impl.so
+vendor/lib/hw/android.hardware.graphics.mapper@2.0-impl.so
+vendor/lib/hw/android.hardware.health@1.0-impl.so
+vendor/lib/hw/android.hardware.keymaster@3.0-impl.so
+vendor/lib/hw/android.hardware.light@2.0-impl.so
+vendor/lib/hw/android.hardware.memtrack@1.0-impl.so
+vendor/lib/hw/android.hardware.power@1.0-impl.so
+vendor/lib/hw/android.hardware.sensors@1.0-impl.so
+vendor/lib/hw/android.hardware.soundtrigger@2.0-impl.so
+vendor/lib/hw/android.hardware.thermal@1.0-impl.so
+vendor/lib/hw/android.hardware.vibrator@1.0-impl.so
+vendor/lib/hw/audio.primary.default.so
+vendor/lib/hw/audio.primary.universal7870_go.so
+vendor/lib/hw/audio.r_submix.default.so
+vendor/lib/hw/audio.usb.default.so
+vendor/lib/hw/camera.universal7870_go.so
+vendor/lib/hw/gatekeeper.exynos7870.so
+vendor/lib/hw/gps.default.so
+vendor/lib/hw/gralloc.default.so
+vendor/lib/hw/gralloc.exynos5.so
+vendor/lib/hw/hwcomposer.exynos5.so
+vendor/lib/hw/keystore.mdfpp.so
+vendor/lib/hw/lights.exynos5.so
+vendor/lib/hw/local_time.default.so
+vendor/lib/hw/memtrack.exynos5.so
+vendor/lib/hw/power.default.so
+vendor/lib/hw/power.universal7870_go.so
+vendor/lib/hw/sensors.universal7870_go.so
+vendor/lib/hw/vendor.samsung.hardware.gnss@1.0-impl.so
+vendor/lib/hw/vendor.samsung.security.skeymaster@3.0-impl.so
+vendor/lib/hw/vibrator.default.so
+vendor/lib/hw/vulkan.exynos5.so
+
+# RIL
+vendor/lib/libsec-ril.so
+vendor/lib/libsec-ril-dsds.so
+
+# Firmware
+vendor/firmware/bcm43436B0_V0086.0141.hcd
+vendor/firmware/bcm43436B0_V0096.0154.hcd
+vendor/firmware/fimc_is_lib.bin
+vendor/firmware/mfc_fw.bin
+vendor/firmware/setfile_5e9.bin
+vendor/firmware/setfile_gc5035.bin
+
+# TEE (Trustonic) - mcRegistry contents are per-device signed blobs,
+# pull the whole directory
+vendor/app/mcRegistry/*
+
+# init rc files (map 1:1 to the HAL impls above)
+vendor/etc/init/android.hardware.audio@2.0-service.rc
+vendor/etc/init/android.hardware.bluetooth@1.0-service.rc
+vendor/etc/init/android.hardware.camera.provider@2.4-service.rc
+vendor/etc/init/android.hardware.configstore@1.0-service.rc
+vendor/etc/init/android.hardware.drm@1.0-service.rc
+vendor/etc/init/android.hardware.drm@1.0-service.widevine.rc
+vendor/etc/init/android.hardware.gatekeeper@1.0-service.rc
+vendor/etc/init/android.hardware.graphics.allocator@2.0-service.rc
+vendor/etc/init/android.hardware.graphics.composer@2.1-service.rc
+vendor/etc/init/android.hardware.health@1.0-service.rc
+vendor/etc/init/android.hardware.keymaster@3.0-service.rc
+vendor/etc/init/android.hardware.light@2.0-service.rc
+vendor/etc/init/android.hardware.media.omx@1.0-service.rc
+vendor/etc/init/android.hardware.memtrack@1.0-service.rc
+vendor/etc/init/android.hardware.power@1.0-service.rc
+vendor/etc/init/android.hardware.sensors@1.0-service.rc
+vendor/etc/init/android.hardware.thermal@1.0-service.rc
+vendor/etc/init/android.hardware.vibrator@1.0-service.rc
+vendor/etc/init/android.hardware.wifi@1.0-service.rc
+vendor/etc/init/hostapd.android.rc
+vendor/etc/init/init.vendor.rilchip.rc
+vendor/etc/init/init.vendor.rilcommon.rc
+vendor/etc/init/rild.rc
+vendor/etc/init/vendor.samsung.hardware.gnss@1.0-service.rc
+vendor/etc/init/vendor.samsung.hardware.miscpower@1.0-service.rc
+vendor/etc/init/vendor.samsung_slsi.hardware.ExynosHWCServiceTW@1.0-service.rc
+vendor/etc/init/vndservicemanager.rc
+
+# Permissions
+vendor/etc/permissions/android.hardware.camera.flash-autofocus.xml
+vendor/etc/permissions/android.hardware.camera.front.xml
+vendor/etc/permissions/android.hardware.camera.xml
+vendor/etc/permissions/android.hardware.location.gps.xml
+vendor/etc/permissions/android.hardware.opengles.aep.xml
+vendor/etc/permissions/android.hardware.sensor.accelerometer.xml
+vendor/etc/permissions/android.hardware.sensor.proximity.xml
+vendor/etc/permissions/android.hardware.telephony.gsm.xml
+vendor/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml
+vendor/etc/permissions/android.hardware.usb.accessory.xml
+vendor/etc/permissions/android.hardware.usb.host.xml
+vendor/etc/permissions/android.hardware.vulkan.level.xml
+vendor/etc/permissions/android.hardware.vulkan.version.xml
+vendor/etc/permissions/android.hardware.wifi.direct.xml
+vendor/etc/permissions/android.hardware.wifi.xml
+vendor/etc/permissions/handheld_core_hardware.xml
+
+# Audio config
+vendor/etc/audio_effects_common.conf
+vendor/etc/audio_policy_configuration.xml
+vendor/etc/audio_policy_configuration_sec.xml
+vendor/etc/audio_policy_volumes.xml
+vendor/etc/default_volume_tables.xml
+vendor/etc/mixer_gains.xml
+vendor/etc/mixer_paths.xml
+vendor/etc/a2dp_audio_policy_configuration.xml
+vendor/etc/r_submix_audio_policy_configuration.xml
+vendor/etc/usb_audio_policy_configuration.xml
+
+# Media
+vendor/etc/media_codecs.xml
+vendor/etc/media_codecs_google_audio.xml
+vendor/etc/media_codecs_google_telephony.xml
+vendor/etc/media_codecs_google_video.xml
+vendor/etc/media_codecs_google_video_le.xml
+vendor/etc/media_codecs_performance.xml
+vendor/etc/media_profiles_V1_0.xml

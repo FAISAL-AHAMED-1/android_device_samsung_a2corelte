@@ -74,3 +74,16 @@ TARGET_KERNEL_CONFIG := exynos7870-a2corelte_defconfig
 undefine TARGET_PREBUILT_KERNEL
 TARGET_KERNEL_SOURCE := kernel/samsung/a2corelte
 TARGET_KERNEL_CONFIG := exynos7870-a2corelte_defconfig
+
+# === A2 Core (Go Edition) 32-bit overrides ===
+TARGET_ARCH := arm
+TARGET_ARCH_VARIANT := armv8-a
+TARGET_CPU_VARIANT := cortex-a53
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
+TARGET_SUPPORTS_64_BIT_APPS := false
+TARGET_SUPPORTS_32_BIT_APPS := true
+TARGET_2ND_ARCH :=
+TARGET_2ND_ARCH_VARIANT :=
+TARGET_2ND_CPU_VARIANT :=
+BOARD_CUSTOM_BOOTIMG_MK := device/samsung/a2corelte/mkbootimg.mk

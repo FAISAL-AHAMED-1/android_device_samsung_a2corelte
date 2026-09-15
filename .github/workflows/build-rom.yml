@@ -39,7 +39,17 @@ jobs:
           git clone https://github.com/FAISAL-AHAMED-1/android_kernel_samsung_a2corelte.git kernel/samsung/a2corelte
           git clone https://github.com/samsungexynos7870/android_device_samsung_universal7870-common.git device/samsung/universal7870-common
           git clone https://github.com/samsungexynos7870/android_vendor_samsung_universal7870-common.git vendor/samsung/universal7870-common
-          git clone -b lineage-17.1 https://github.com/LineageOS/android_hardware_samsung.git hardware/samsung
+          
+          # FORCE FIX: Remove any broken/empty folder left by repo sync, then clone shallowly
+          rm -rf hardware/samsung
+          git clone --depth 1 -b lineage-17.1 https://github.com/LineageOS/android_hardware_samsung.git hardware/samsung
+          
+          # VERIFICATION: Instantly fail the workflow if the file didn't download
+          if [ ! -f hardware/samsung/mkbootimg.mk ]; then
+            echo "❌ FATAL: hardware/samsung/mkbootimg.mk is missing! Clone failed."
+            exit 1
+          fi
+          echo "✅ hardware/samsung successfully cloned!"
 
       - name: Compile ROM (saves build.log)
         run: |

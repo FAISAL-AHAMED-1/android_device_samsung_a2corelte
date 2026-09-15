@@ -14,7 +14,7 @@ jobs:
           remove-android: 'true'
           remove-haskell: 'true'
           remove-codeql: 'true'
-          
+
       - name: Install Dependencies
         run: |
           sudo apt update
@@ -25,14 +25,23 @@ jobs:
           echo "$HOME/bin" >> $GITHUB_PATH
           git config --global user.email "builder@cloud.com"
           git config --global user.name "Cloud Builder"
+          git config --global http.postBuffer 524288000
+          git config --global http.lowSpeedLimit 0
+          git config --global http.lowSpeedTime 999999
 
       - name: Sync LineageOS 17.1 Source
         run: |
           mkdir -p ~/lineage
           cd ~/lineage
-          repo init -u https://github.com/LineageOS/android.git -b lineage-17.1 --depth=1
-          repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
-          rm -rf .repo 
+          repo init --depth=1 \
+            -u https://github.com/LineageOS/android.git \
+            -b lineage-17.1 \
+            --repo-url=https://github.com/GerritCodeReview/git-repo \
+            --repo-branch=stable \
+            --no-repo-verify
+          repo sync -c -j8 --force-sync --no-clone-bundle --no-tags --optimized-fetch || \
+          repo sync -c -j4 --force-sync --no-clone-bundle --no-tags
+          rm -rf .repo
 
       - name: Clone Custom Trees
         run: |

@@ -34,16 +34,12 @@ jobs:
       - name: Clone Custom Trees
         run: |
           cd ~/lineage
-          # Your device tree
           git clone https://github.com/FAISAL-AHAMED-1/android_device_samsung_a2corelte.git device/samsung/a2corelte
-          # Your vendor blobs
           git clone https://github.com/FAISAL-AHAMED-1/vendor_samsung_a2corelte.git vendor/samsung/a2corelte
-          # Your kernel source
           git clone https://github.com/FAISAL-AHAMED-1/android_kernel_samsung_a2corelte.git kernel/samsung/a2corelte
-          # The common device tree
           git clone https://github.com/samsungexynos7870/android_device_samsung_universal7870-common.git device/samsung/universal7870-common
-          # NEW: The common vendor blobs (Fixes the dumpvars error!)
           git clone https://github.com/samsungexynos7870/android_vendor_samsung_universal7870-common.git vendor/samsung/universal7870-common
+          git clone -b lineage-17.1 https://github.com/LineageOS/android_hardware_samsung.git hardware/samsung
 
       - name: Compile ROM (saves build.log)
         run: |

@@ -61,3 +61,6 @@ WPA_SUPPLICANT_USE_HIDL := true
 # inherit from the proprietary version
 -include vendor/samsung/a2corelte/BoardConfigVendor.mk
 TARGET_SUPPORTS_64_BIT_APPS := false
+
+# Exynos device doesn't use QCOM RIL/Bluetooth, ignore missing libs
+ALLOW_MISSING_DEPENDENCIES := true

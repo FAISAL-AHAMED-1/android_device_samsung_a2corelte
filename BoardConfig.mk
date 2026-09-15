@@ -64,3 +64,6 @@ TARGET_SUPPORTS_64_BIT_APPS := false
 
 # Exynos device doesn't use QCOM RIL/Bluetooth, ignore missing libs
 ALLOW_MISSING_DEPENDENCIES := true
+
+# Exynos device doesn't use QCOM RIL/Bluetooth, ignore missing libs
+ALLOW_MISSING_DEPENDENCIES := true

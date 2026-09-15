@@ -67,3 +67,10 @@ ALLOW_MISSING_DEPENDENCIES := true
 
 # Exynos device doesn't use QCOM RIL/Bluetooth, ignore missing libs
 ALLOW_MISSING_DEPENDENCIES := true
+
+# --- AUTO-FIX: Force kernel compilation from source ---
+undefine TARGET_PREBUILT_KERNEL
+TARGET_PREBUILT_KERNEL :=
+TARGET_KERNEL_SOURCE := kernel/samsung/a2corelte
+# Try multiple common defconfig names; the build system will pick the one that exists
+TARGET_KERNEL_CONFIG := lineage_a2corelte_defconfig exynos7870-a2corelte_defconfig a2corelte_defconfig

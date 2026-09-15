@@ -5,15 +5,11 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - name: Maximize Build Space
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 512
-          swap-size-mb: 1024
-          remove-dotnet: 'true'
-          remove-android: 'true'
-          remove-haskell: 'true'
-          remove-codeql: 'true'
+      - name: Free Disk Space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL /usr/local/.ghcup /usr/share/swift
+          sudo apt-get clean
+          df -h /
 
       - name: Install Dependencies
         run: |
@@ -25,23 +21,15 @@ jobs:
           echo "$HOME/bin" >> $GITHUB_PATH
           git config --global user.email "builder@cloud.com"
           git config --global user.name "Cloud Builder"
-          git config --global http.postBuffer 524288000
-          git config --global http.lowSpeedLimit 0
-          git config --global http.lowSpeedTime 999999
 
       - name: Sync LineageOS 17.1 Source
         run: |
           mkdir -p ~/lineage
           cd ~/lineage
-          repo init --depth=1 \
-            -u https://github.com/LineageOS/android.git \
-            -b lineage-17.1 \
-            --repo-url=https://github.com/GerritCodeReview/git-repo \
-            --repo-branch=stable \
-            --no-repo-verify
-          repo sync -c -j8 --force-sync --no-clone-bundle --no-tags --optimized-fetch || \
-          repo sync -c -j4 --force-sync --no-clone-bundle --no-tags
+          repo init --depth=1 -u https://github.com/LineageOS/android.git -b lineage-17.1 --repo-url=https://github.com/GerritCodeReview/git-repo --repo-branch=stable --no-repo-verify
+          repo sync -c -j$(nproc) --force-sync --no-clone-bundle --no-tags
           rm -rf .repo
+          df -h /
 
       - name: Clone Custom Trees
         run: |
@@ -51,15 +39,27 @@ jobs:
           git clone https://github.com/FAISAL-AHAMED-1/android_kernel_samsung_a2corelte.git kernel/samsung/a2corelte
           git clone https://github.com/samsungexynos7870/android_device_samsung_universal7870-common.git device/samsung/universal7870-common
 
-      - name: Compile ROM
+      - name: Compile ROM (saves build.log)
         run: |
           cd ~/lineage
+          JVM8=$(ls -d /usr/lib/jvm/*8* 2>/dev/null | head -n1)
+          if [ -n "$JVM8" ]; then export JAVA_HOME="$JVM8"; export PATH="$JAVA_HOME/bin:$PATH"; fi
+          java -version
           source build/envsetup.sh
           lunch lineage_a2corelte-userdebug
-          mka bacon -j$(nproc)
+          set -o pipefail
+          mka bacon -j$(nproc) 2>&1 | tee build.log
 
-      - name: Upload Artifact
+      - name: Upload Build Log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: ~/lineage/build.log
+
+      - name: Upload ROM
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: LineageOS-17.1-a2corelte
-          path: out/target/product/a2corelte/*.zip
+          path: ~/lineage/out/target/product/a2corelte/*.zip

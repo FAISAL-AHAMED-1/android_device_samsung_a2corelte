@@ -69,3 +69,8 @@ ALLOW_MISSING_DEPENDENCIES := true
 # --- Kernel Configuration ---
 TARGET_KERNEL_SOURCE := kernel/samsung/a2corelte
 TARGET_KERNEL_CONFIG := exynos7870-a2corelte_defconfig
+
+# Force source kernel build (v3)
+undefine TARGET_PREBUILT_KERNEL
+TARGET_KERNEL_SOURCE := kernel/samsung/a2corelte
+TARGET_KERNEL_CONFIG := exynos7870-a2corelte_defconfig

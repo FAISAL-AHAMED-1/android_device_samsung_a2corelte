@@ -54,17 +54,30 @@ jobs:
           git clone --depth 1 -b lineage-17.1 https://github.com/LineageOS/android_hardware_samsung.git hardware/samsung
           test -f hardware/samsung/mkbootimg.mk
 
+      - name: Build kernel FIRST (live-streamed log)
+        run: |
+          cd ~/lineage
+          source build/envsetup.sh
+          lunch lineage_a2corelte-userdebug
+          set -o pipefail
+          mka out/target/product/a2corelte/kernel 2>&1 | tee kernel.log
+
+      - name: Upload kernel log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernel-log
+          path: ~/lineage/kernel.log
+
       - name: Compile ROM (saves build.log)
         run: |
           cd ~/lineage
-          JVM8=$(ls -d /usr/lib/jvm/*8* 2>/dev/null | head -n1)
-          [ -n "$JVM8" ] && export JAVA_HOME="$JVM8" && export PATH="$JAVA_HOME/bin:$PATH"
           source build/envsetup.sh
           lunch lineage_a2corelte-userdebug
           set -o pipefail
           mka bacon -j$(nproc) WITH_DEXPREOPT=false 2>&1 | tee build.log
 
-      - name: Save ccache (even if build dies at 6h)
+      - name: Save ccache (even if build dies)
         if: always()
         uses: actions/cache/save@v4
         with:

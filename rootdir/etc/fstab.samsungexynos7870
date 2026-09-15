@@ -1,6 +1,1 @@
-/dev/block/platform/13540000.dwmmc0/by-name/system    /system    ext4    ro,barrier=1    wait
-/dev/block/platform/13540000.dwmmc0/by-name/vendor    /vendor    ext4    ro,barrier=1    wait
-/dev/block/platform/13540000.dwmmc0/by-name/userdata  /data      f2fs    noatime,nosuid,nodev,discard,inline_data,inline_xattr    wait,check,formattable,latemount
-/dev/block/platform/13540000.dwmmc0/by-name/cache     /cache     ext4    noatime,nosuid,nodev,noauto_da_alloc    wait,check,formattable
-/dev/block/platform/13540000.dwmmc0/by-name/efs       /efs       ext4    noatime,nosuid,nodev,noauto_da_alloc    wait,check,formattable
-/dev/block/platform/13540000.dwmmc0/by-name/cpefs     /cpefs     ext4    noatime,nosuid,nodev,noauto_da_alloc    wait,check,formattable
+# Dummy fstab to satisfy build system

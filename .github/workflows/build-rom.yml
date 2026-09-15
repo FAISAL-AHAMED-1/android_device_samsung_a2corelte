@@ -21,6 +21,17 @@ jobs:
           echo "$HOME/bin" >> $GITHUB_PATH
           git config --global user.email "builder@cloud.com"
           git config --global user.name "Cloud Builder"
+          echo "USE_CCACHE=1" >> $GITHUB_ENV
+          echo "CCACHE_DIR=$GITHUB_WORKSPACE/ccache" >> $GITHUB_ENV
+          ccache -M 5G
+
+      - name: Restore ccache
+        uses: actions/cache/restore@v4
+        with:
+          path: ccache
+          key: ccache-lineage-${{ github.run_id }}
+          restore-keys: |
+            ccache-lineage-
 
       - name: Sync LineageOS 17.1 Source
         run: |
@@ -39,28 +50,26 @@ jobs:
           git clone https://github.com/FAISAL-AHAMED-1/android_kernel_samsung_a2corelte.git kernel/samsung/a2corelte
           git clone https://github.com/samsungexynos7870/android_device_samsung_universal7870-common.git device/samsung/universal7870-common
           git clone https://github.com/samsungexynos7870/android_vendor_samsung_universal7870-common.git vendor/samsung/universal7870-common
-          
-          # FORCE FIX: Remove any broken/empty folder left by repo sync, then clone shallowly
           rm -rf hardware/samsung
           git clone --depth 1 -b lineage-17.1 https://github.com/LineageOS/android_hardware_samsung.git hardware/samsung
-          
-          # VERIFICATION: Instantly fail the workflow if the file didn't download
-          if [ ! -f hardware/samsung/mkbootimg.mk ]; then
-            echo "❌ FATAL: hardware/samsung/mkbootimg.mk is missing! Clone failed."
-            exit 1
-          fi
-          echo "✅ hardware/samsung successfully cloned!"
+          test -f hardware/samsung/mkbootimg.mk
 
       - name: Compile ROM (saves build.log)
         run: |
           cd ~/lineage
           JVM8=$(ls -d /usr/lib/jvm/*8* 2>/dev/null | head -n1)
-          if [ -n "$JVM8" ]; then export JAVA_HOME="$JVM8"; export PATH="$JAVA_HOME/bin:$PATH"; fi
-          java -version
+          [ -n "$JVM8" ] && export JAVA_HOME="$JVM8" && export PATH="$JAVA_HOME/bin:$PATH"
           source build/envsetup.sh
           lunch lineage_a2corelte-userdebug
           set -o pipefail
-          mka bacon -j$(nproc) 2>&1 | tee build.log
+          mka bacon -j$(nproc) WITH_DEXPREOPT=false 2>&1 | tee build.log
+
+      - name: Save ccache (even if build dies at 6h)
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ccache
+          key: ccache-lineage-${{ github.run_id }}
 
       - name: Upload Build Log
         if: always()

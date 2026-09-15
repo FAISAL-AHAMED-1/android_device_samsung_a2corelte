@@ -38,8 +38,6 @@ TARGET_LOW_RAM := true
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/configs/manifest.xml
 
 # Init
-TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):libinit_a2corelte
-TARGET_RECOVERY_DEVICE_MODULES := libinit_a2corelte
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)/releasetools
@@ -62,3 +60,4 @@ WPA_SUPPLICANT_USE_HIDL := true
 
 # inherit from the proprietary version
 -include vendor/samsung/a2corelte/BoardConfigVendor.mk
+TARGET_SUPPORTS_64_BIT_APPS := false

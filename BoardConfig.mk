@@ -63,7 +63,7 @@ WPA_SUPPLICANT_USE_HIDL := true
 
 
 # --- Device Specific Overrides ---
-TARGET_SUPPORTS_64_BIT_APPS := false
+TARGET_SUPPORTS_64_BIT_APPS := true
 ALLOW_MISSING_DEPENDENCIES := true
 
 # --- Kernel Configuration ---

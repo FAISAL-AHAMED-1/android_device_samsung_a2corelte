@@ -1,1 +1,1 @@
-// Dummy init stub
+// stub

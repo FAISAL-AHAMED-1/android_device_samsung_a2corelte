@@ -1,0 +1,5 @@
+cc_library_static {
+    name: "libinit_a2corelte",
+    srcs: ["init/init_a2corelte.cpp"],
+    vendor: true,
+}

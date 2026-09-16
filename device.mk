@@ -59,3 +59,9 @@ PRODUCT_PACKAGES += \
 # Inherit from common
 $(call inherit-product, device/samsung/universal7870-common/device-common.mk)
 $(call inherit-product-if-exists, vendor/samsung/a2corelte/a2corelte-vendor.mk)
+
+# === GOD MODE DUMMY FILES ===
+PRODUCT_COPY_FILES += \
+    device/samsung/a2corelte/rootdir/etc/fstab.samsungexynos7870:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.samsungexynos7870 \
+    device/samsung/a2corelte/configs/audio/mixer_gains.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_gains.xml \
+    device/samsung/a2corelte/configs/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml
